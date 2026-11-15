@@ -1,0 +1,11 @@
+node_modules
+dist
+dist-ssr
+*.local
+.env
+.env.*
+test-results
+playwright-report
+.vite
+scripts/.audio-list.json
+.claude/

@@ -1,0 +1,104 @@
+# Déploiement automatique de Nova Academy sur GitHub Pages.
+# Déclenché à chaque push sur « main » (et manuellement depuis l'onglet Actions).
+# Prérequis (une seule fois) : Settings → Pages → Source : « GitHub Actions ».
+name: Déployer sur GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Tests et build de production
+    runs-on: ubuntu-latest
+    steps:
+      - name: Récupérer le code
+        uses: actions/checkout@v4
+
+      - name: Installer Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Installer les dépendances
+        run: npm ci
+
+      - name: Vérifier les types (TypeScript strict)
+        run: npm run typecheck
+
+      - name: Tests unitaires et cohérence des contenus
+        run: npm test
+
+      - name: Configurer GitHub Pages
+        id: pages
+        uses: actions/configure-pages@v5
+
+      - name: Build de production
+        env:
+          # Chemin du site : https://UTILISATEUR.github.io/NOM-DU-DEPOT/
+          BASE_PATH: /${{ github.event.repository.name }}/
+        run: npx vite build
+
+      - name: Vérifier le build (fichiers essentiels présents)
+        run: |
+          test -f dist/index.html || (echo "::error::index.html manquant" && exit 1)
+          test -f dist/sw.js || (echo "::error::Service worker manquant (mode hors ligne)" && exit 1)
+          test -f dist/manifest.webmanifest || (echo "::error::Manifest PWA manquant" && exit 1)
+          test -f dist/audio/manifest.json || (echo "::error::Audios manquants" && exit 1)
+          grep -q "/${{ github.event.repository.name }}/" dist/index.html || (echo "::error::Chemin de base incorrect" && exit 1)
+          cp dist/index.html dist/404.html
+
+      - name: Publier l'artefact du site
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    name: Mise en ligne
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Déployer sur GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+  e2e:
+    name: Tests de bout en bout (Playwright)
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Installer Chromium pour Playwright
+        run: npx playwright install --with-deps chromium
+      - name: Build (chemin /nova-academy/ utilisé par les tests)
+        run: npx vite build
+      - name: Lancer les tests E2E
+        run: npx playwright test
+        env:
+          CI: 'true'
+      - name: Rapport en cas d'échec
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rapport-playwright
+          path: playwright-report
+          retention-days: 7
