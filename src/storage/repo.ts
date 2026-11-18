@@ -3,6 +3,7 @@ import { applyAttempt, applyBlock, emptyRecord, todayISO, type BlockSummary, typ
 import type { RecordMap } from '@/adaptive-engine/planner';
 import type { LevelId } from '@/curriculum/types';
 import { DEFAULT_SUBJECTS, type Profile } from '@/profiles/types';
+import { LEVEL_DEFAULTS } from '@/profiles/levelDefaults';
 import { db, type AttemptRow, type NovaDB, type SessionRow } from './db';
 
 export function uid(): string {
@@ -11,18 +12,19 @@ export function uid(): string {
 }
 
 export function newProfile(level: LevelId, name: string, partial: Partial<Profile> = {}): Profile {
+  const def = LEVEL_DEFAULTS[level];
   return {
     id: uid(),
     level,
-    name: name.trim().slice(0, 20) || (level === 'ce2' ? 'Exploratrice' : 'Explorateur'),
-    avatar: { skin: 1, hair: level === 'ce2' ? 2 : 0, hairColor: 1, outfit: level === 'ce2' ? 0 : 3, accessory: null, background: level === 'ce2' ? 0 : 3 },
-    mascot: level === 'ce2' ? 'pip' : 'orbi',
-    theme: level === 'ce2' ? 'jardin' : 'academie',
+    name: name.trim().slice(0, 20) || def.defaultName,
+    avatar: { skin: 1, hairColor: 1, accessory: null, ...def.avatar },
+    mascot: def.mascot,
+    theme: def.theme,
     createdAt: new Date().toISOString(),
     settings: { textScale: 1, reducedMotion: false, soundEffects: true, listMode: false },
     plan: {
       days: [true, true, true, true, true, false, false],
-      minutes: level === 'ce2' ? 20 : 25,
+      minutes: def.minutes,
       subjects: [...DEFAULT_SUBJECTS[level]],
       priorities: [],
       freeExplore: false,

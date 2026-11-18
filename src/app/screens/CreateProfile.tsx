@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, Navigate, useNavigate, useParams } from 'react-router';
 import { ArrowLeft, ArrowRight, Check } from 'lucide-react';
 import { LEVELS } from '@/curriculum/registry';
+import { LEVEL_DEFAULTS } from '@/profiles/levelDefaults';
 import type { LevelId } from '@/curriculum/types';
 import { AvatarEditor, MascotPicker, ThemePicker } from '@/profiles/AvatarEditor';
 import { newProfile, saveProfile } from '@/storage/repo';
@@ -14,7 +15,7 @@ export function CreateProfile() {
   const { level } = useParams();
   const { reloadProfiles } = useApp();
   const nav = useNavigate();
-  const valid = level === 'ce2' || level === 'cm2';
+  const valid = !!level && level in LEVELS;
   const [step, setStep] = useState(0);
   const [draft, setDraft] = useState<Profile | null>(valid ? newProfile(level as LevelId, '') : null);
   const [name, setName] = useState('');
@@ -61,7 +62,7 @@ export function CreateProfile() {
           {step === 0 && (
             <div className="field">
               <label htmlFor="pname">Comment veux-tu qu’on t’appelle ? (un prénom ou un surnom)</label>
-              <input id="pname" className="input" autoFocus maxLength={20} value={name} onChange={(e) => setName(e.target.value)} placeholder={draft.level === 'ce2' ? 'Ex. : Lili' : 'Ex. : Capitaine Max'} autoComplete="off" />
+              <input id="pname" className="input" autoFocus maxLength={20} value={name} onChange={(e) => setName(e.target.value)} placeholder={LEVEL_DEFAULTS[draft.level].namePlaceholder} autoComplete="off" />
               <span className="kbd-hint">Pas besoin de nom de famille : un prénom ou un pseudo suffit.</span>
             </div>
           )}

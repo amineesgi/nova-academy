@@ -4,6 +4,7 @@
  */
 import type { Exercise, LevelDefinition, Skill, SubjectId } from '@/curriculum/types';
 import type { Profile } from '@/profiles/types';
+import { LEVEL_DEFAULTS } from '@/profiles/levelDefaults';
 import { accuracy, computeState, emptyRecord, isDue, type SkillRecord, type SkillState } from './mastery';
 
 export type BlockKind = 'new' | 'learn' | 'review' | 'support' | 'prerequisite';
@@ -66,7 +67,7 @@ export function subjectsForDay(profile: Profile, level: LevelDefinition, date: D
 }
 
 export function blockCountFor(minutes: number, level: LevelDefinition): number {
-  const perBlock = level.id === 'ce2' ? 6 : 7;
+  const perBlock = LEVEL_DEFAULTS[level.id].minutesPerBlock;
   return Math.max(2, Math.min(5, Math.round(minutes / perBlock)));
 }
 
@@ -90,7 +91,7 @@ export function buildDailyMission(
   const used = new Set<string>();
   const perSubject = new Map<SubjectId, number>();
   const bySkill = new Map(level.skills.map((s) => [s.id, s]));
-  const count = level.id === 'ce2' ? 5 : 6;
+  const count = LEVEL_DEFAULTS[level.id].blockSize;
 
   const push = (skill: Skill, kind: BlockKind) => {
     if (blocks.length >= n || used.has(skill.id)) return;

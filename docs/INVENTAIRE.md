@@ -1,4 +1,4 @@
-# Inventaire des contenus (état réel au 15/11/2026)
+# Inventaire des contenus (état réel au 18/11/2026)
 
 Commande pour le regénérer : `npm run inventory`. Chaque exercice rédigé et chaque variante comptée est vérifié automatiquement par `tests/unit/content.test.ts` (la bonne réponse est acceptée par le correcteur, pas de choix en double, variantes suffisamment différentes, etc.).
 
@@ -18,6 +18,21 @@ Commande pour le regénérer : `npm run inventory`. Chaque exercice rédigé et 
 | EMC | 4 | 17 | 0 |
 | Arts et culture (arts, musique, santé) | 3 | 15 | 0 |
 
+## CM1 — Le Royaume des Inventeurs
+
+61 compétences · **302 exercices rédigés** · 62 générateurs (**700 variantes vérifiées**) · total 1 002
+
+| Matière | Compétences | Rédigés | Variantes |
+|---|---|---|---|
+| Français | 15 | 89 | 8 |
+| Mathématiques | 16 | 66 | 564 |
+| Anglais | 8 | 39 | 128 |
+| Histoire | 5 | 30 | 0 |
+| Géographie | 5 | 24 | 0 |
+| Sciences et technologie | 6 | 30 | 0 |
+| EMC | 3 | 12 | 0 |
+| Arts et culture | 3 | 12 | 0 |
+
 ## CM2 — L’Académie des Explorateurs
 
 66 compétences · **349 exercices rédigés** · 66 générateurs (**731 variantes vérifiées**) · total 1 080
@@ -35,9 +50,9 @@ Commande pour le regénérer : `npm run inventory`. Chaque exercice rédigé et 
 
 ## Autres contenus
 
-- 123 leçons structurées (une par compétence), chacune avec une explication alternative.
-- 189 fichiers audio locaux (mots, phrases et dialogues anglais ; phrases de dictée en français), générés avec les voix Windows « Zira » (anglais américain) et « Hortense » (français). Voix de synthèse de bonne qualité mais non humaines.
-- 8 mini-jeux, 16 badges, 13 objets cosmétiques, 4 mascottes, 6 thèmes.
+- 184 leçons structurées (une par compétence), chacune avec une explication alternative.
+- 275 fichiers audio locaux (mots, phrases et dialogues anglais ; phrases de dictée en français), générés avec les voix Windows « Zira » (anglais américain) et « Hortense » (français). Voix de synthèse de bonne qualité mais non humaines.
+- 8 mini-jeux, 16 badges, 13 objets cosmétiques, 5 mascottes, 7 thèmes.
 
 ## Points les moins fournis (à enrichir en priorité)
 

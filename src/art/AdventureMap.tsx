@@ -1,6 +1,7 @@
 /**
  * Cartes d'aventure illustrées (SVG original) :
  *  - CE2 : le Jardin des Savoirs (jour, pastel, végétal) ;
+ *  - CM1 : le Royaume des Inventeurs (crépuscule doré, ateliers, moulins, dirigeable) ;
  *  - CM2 : l'Académie des Explorateurs (nuit étoilée, observatoire, constellations).
  * Chaque région est un bouton accessible au clavier, avec sa progression.
  */
@@ -104,6 +105,74 @@ function Landmark({ id, color }: { id: string; color: string }) {
           <rect x="-3" y="22" width="6" height="6" fill="#8a6a40" />
         </g>
       );
+    case 'atelier-nombres':
+      return (
+        <g>
+          <rect x="-22" y="-6" width="44" height="30" rx="4" fill={color} />
+          <polygon points="-26,-6 0,-26 26,-6" fill="#7a3f12" />
+          <rect x="10" y="-30" width="8" height="16" fill="#5b4636" />
+          <circle cx="0" cy="10" r="9" fill="#ffe2b0" stroke="#7a3f12" strokeWidth="3" strokeDasharray="4 3" />
+          <text x="0" y="14" textAnchor="middle" fontWeight="900" fontSize="10" fill="#7a3f12">+×</text>
+        </g>
+      );
+    case 'tour-mots':
+      return (
+        <g>
+          <rect x="-12" y="-28" width="24" height="52" rx="3" fill={color} />
+          <polygon points="-16,-28 0,-44 16,-28" fill="#4b2b8a" />
+          <rect x="-5" y="-18" width="10" height="10" rx="5" fill="#ffe6a8" />
+          <rect x="-5" y="4" width="10" height="20" rx="5" fill="#2e1a55" />
+          <text x="0" y="-36" textAnchor="middle" fontWeight="900" fontSize="9" fill="#fff">Aa</text>
+        </g>
+      );
+    case 'port-langues':
+      return (
+        <g>
+          <path d="M-28 12 L28 12 L20 24 L-20 24 Z" fill="#7a4a2b" />
+          <line x1="0" y1="12" x2="0" y2="-30" stroke="#5b4636" strokeWidth="3" />
+          <path d="M2 -28 L24 6 L2 6 Z" fill="#fff" />
+          <path d="M-2 -22 L-20 6 L-2 6 Z" fill={color} />
+          <text x="12" y="0" textAnchor="middle" fontWeight="900" fontSize="8" fill={color}>Hi</text>
+        </g>
+      );
+    case 'chateau-temps':
+      return (
+        <g>
+          <rect x="-24" y="-8" width="48" height="32" fill={color} />
+          {[-24, -12, 0, 12].map((x) => <rect key={x} x={x} y="-14" width="7" height="7" fill={color} />)}
+          <rect x="-8" y="-30" width="16" height="22" fill="#7a3328" />
+          <circle cx="0" cy="-20" r="5" fill="#ffe6a8" />
+          <path d="M-7 24 V10 A7 7 0 0 1 7 10 V24 Z" fill="#3b1e17" />
+        </g>
+      );
+    case 'labo-inventions':
+      return (
+        <g>
+          <circle cx="0" cy="0" r="18" fill="#dff6f2" stroke={color} strokeWidth="4" />
+          {Array.from({ length: 8 }, (_, i) => <rect key={i} x="-3" y="-25" width="6" height="8" fill={color} transform={`rotate(${i * 45})`} />)}
+          <path d="M-5 -10 h10 v6 l7 12 h-24 l7 -12 Z" fill="#fff" stroke={color} strokeWidth="2" />
+          <circle cx="-2" cy="4" r="2" fill={color} />
+        </g>
+      );
+    case 'cartotheque':
+      return (
+        <g>
+          <rect x="-24" y="-18" width="48" height="36" rx="4" fill="#f6e7c4" stroke={color} strokeWidth="3" />
+          <path d="M-14 -8 q8 -6 14 2 q6 8 -2 12 q-8 2 -12 -6 Z" fill={color} />
+          <path d="M8 4 q8 -2 10 6 q-6 6 -12 0 Z" fill={color} />
+          <circle cx="16" cy="-10" r="5" fill="none" stroke="#9c4a3a" strokeWidth="2" />
+        </g>
+      );
+    case 'place-conseil':
+      return (
+        <g>
+          <ellipse cx="0" cy="18" rx="30" ry="8" fill="#e9d6a6" />
+          <rect x="-4" y="-24" width="8" height="40" fill="#7a5a2b" />
+          <circle cx="0" cy="-12" r="14" fill="#fff8e6" stroke={color} strokeWidth="4" />
+          <line x1="0" y1="-12" x2="0" y2="-21" stroke="#2e2216" strokeWidth="2" />
+          <line x1="0" y1="-12" x2="7" y2="-12" stroke="#2e2216" strokeWidth="2" />
+        </g>
+      );
     default:
       return <circle r="20" fill={color} />;
   }
@@ -151,6 +220,62 @@ function GardenBackdrop() {
   );
 }
 
+function InventorsBackdrop() {
+  return (
+    <g>
+      <defs>
+        <linearGradient id="sky-cm1" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#ffd9a8" />
+          <stop offset="0.55" stopColor="#ffeccc" />
+          <stop offset="1" stopColor="#f6e2c0" />
+        </linearGradient>
+      </defs>
+      <rect width="1000" height="620" fill="url(#sky-cm1)" />
+      <circle cx="140" cy="90" r="50" fill="#ffb562" opacity=".85" />
+      {/* dirigeable */}
+      <g transform="translate(720 70)">
+        <ellipse cx="0" cy="0" rx="70" ry="26" fill="#c46a1f" />
+        <path d="M-70 0 h140" stroke="#8a4413" strokeWidth="3" />
+        <path d="M60 -6 l26 -16 v44 l-26 -16 Z" fill="#a9561a" />
+        <rect x="-20" y="30" width="40" height="14" rx="4" fill="#5b4636" />
+        <line x1="-16" y1="22" x2="-14" y2="30" stroke="#5b4636" strokeWidth="2" />
+        <line x1="16" y1="22" x2="14" y2="30" stroke="#5b4636" strokeWidth="2" />
+      </g>
+      {[[300, 70], [520, 110]].map(([x, y], i) => (
+        <g key={i} fill="#fff" opacity=".85">
+          <ellipse cx={x} cy={y} rx="44" ry="14" />
+          <ellipse cx={(x ?? 0) + 24} cy={(y ?? 0) - 9} rx="24" ry="14" />
+        </g>
+      ))}
+      <path d="M0 270 C 180 220, 380 300, 560 250 C 740 200, 880 270, 1000 240 V620 H0 Z" fill="#d7c08f" />
+      <path d="M0 380 C 220 340, 420 410, 640 360 C 820 320, 920 380, 1000 360 V620 H0 Z" fill="#b9cf8e" />
+      <path d="M0 500 C 220 470, 460 520, 680 490 C 840 470, 940 500, 1000 490 V620 H0 Z" fill="#9fc27e" />
+      {/* rivière et pont */}
+      <path d="M1000 330 C 900 360, 860 420, 760 440 C 660 460, 620 520, 560 620" stroke="#7cc6e0" strokeWidth="30" fill="none" strokeLinecap="round" />
+      {/* moulins à vent */}
+      {[[110, 300], [900, 300]].map(([x, y], i) => (
+        <g key={`m${i}`} transform={`translate(${x} ${y})`}>
+          <polygon points="-12,40 12,40 7,0 -7,0" fill="#efe1c6" stroke="#7a5a2b" strokeWidth="2" />
+          <g style={{ transformOrigin: '0px 0px', animation: 'spin 12s linear infinite' }}>
+            {[0, 90, 180, 270].map((a) => <rect key={a} x="-3" y="-34" width="6" height="34" fill="#a9561a" transform={`rotate(${a})`} />)}
+          </g>
+          <circle r="4" fill="#5b4636" />
+        </g>
+      ))}
+      {/* engrenages décoratifs */}
+      {[[60, 560, 26], [960, 570, 22], [420, 590, 16]].map(([x, y, r], i) => (
+        <g key={`g${i}`} opacity=".35">
+          {Array.from({ length: 10 }, (_, k) => <rect key={k} x={(x ?? 0) - 3} y={(y ?? 0) - (r ?? 0) - 7} width="6" height="9" fill="#8a4413" transform={`rotate(${k * 36} ${x} ${y})`} />)}
+          <circle cx={x} cy={y} r={r} fill="#8a4413" />
+          <circle cx={x} cy={y} r={(r ?? 0) / 2.5} fill="#f6e2c0" />
+        </g>
+      ))}
+      {/* chemins pavés */}
+      <path d="M200 210 C 300 280, 420 320, 500 335 C 600 310, 700 260, 800 210 M500 335 C 420 400, 300 420, 220 435 M500 335 C 580 400, 700 420, 780 435 M500 335 C 500 420, 500 470, 500 520" stroke="#f3e2bd" strokeWidth="14" fill="none" strokeLinecap="round" strokeDasharray="2 18" />
+    </g>
+  );
+}
+
 function AcademyBackdrop({ stars }: { stars: boolean }) {
   return (
     <g>
@@ -180,10 +305,10 @@ function AcademyBackdrop({ stars }: { stars: boolean }) {
 }
 
 export function AdventureMap({ level, statuses, onSelect, decorations = [] }: { level: LevelDefinition; statuses: RegionStatus[]; onSelect: (r: Region) => void; decorations?: string[] }) {
-  const ce2 = level.id === 'ce2';
+  const ce2 = level.id !== 'cm2'; // fond clair (CE2 et CM1)
   return (
     <svg viewBox="0 0 1000 620" width="100%" style={{ borderRadius: 28, boxShadow: 'var(--shadow-l)', display: 'block' }} role="group" aria-label={`Carte de ${level.worldName}`}>
-      {ce2 ? <GardenBackdrop /> : <AcademyBackdrop stars={decorations.includes('map-etoiles')} />}
+      {level.id === 'ce2' ? <GardenBackdrop /> : level.id === 'cm1' ? <InventorsBackdrop /> : <AcademyBackdrop stars={decorations.includes('map-etoiles')} />}
       {decorations.includes('map-lanternes') &&
         [[150, 420], [350, 470], [650, 300], [860, 380]].map(([x, y], i) => (
           <g key={i}>

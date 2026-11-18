@@ -19,6 +19,7 @@ import { ProgressBar, SubjectBadge } from '@/components/ui';
 import { db } from '@/storage/db';
 import { recordAttempt, saveProfile } from '@/storage/repo';
 import { grantRewards } from '@/progression/progress';
+import { LEVEL_DEFAULTS } from '@/profiles/levelDefaults';
 
 export default function Diagnostic() {
   const { profile, level, refresh } = useProfileCtx();
@@ -29,7 +30,7 @@ export default function Diagnostic() {
   const [done, setDone] = useState(false);
 
   const questions = useMemo(() => {
-    const perSkill = level.id === 'ce2' ? 1 : 2;
+    const perSkill = LEVEL_DEFAULTS[level.id].diagnosticPerSkill;
     const seed = Date.now() % 9973;
     return level.skills
       .filter((s) => s.diagnostic)

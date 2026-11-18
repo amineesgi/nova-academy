@@ -4,7 +4,7 @@
  * revient à créer un nouveau dossier dans src/curriculum et à l'enregistrer dans registry.ts.
  */
 
-export type LevelId = 'ce2' | 'cm2';
+export type LevelId = 'ce2' | 'cm1' | 'cm2';
 
 export type SubjectId =
   | 'francais'

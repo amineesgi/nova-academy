@@ -1,7 +1,7 @@
 import { expect, type Page } from '@playwright/test';
 
 /** Crée un profil depuis l'accueil et revient sur sa carte (tour de découverte reporté). */
-export async function createProfile(page: Page, level: 'ce2' | 'cm2', name: string) {
+export async function createProfile(page: Page, level: 'ce2' | 'cm1' | 'cm2', name: string) {
   await page.goto('./');
   await page.locator(`a[href="#/nouveau/${level}"]`).click();
   await page.getByPlaceholder(/Ex\./).fill(name);

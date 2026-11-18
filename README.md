@@ -1,11 +1,11 @@
 # Nova Academy
 
-**Deux aventures, mille découvertes.** Plateforme éducative gratuite pour réviser le programme français de **CE2** (« Le Jardin des Savoirs ») et de **CM2** (« L’Académie des Explorateurs »), année 2026-2027.
+**Deux aventures, mille découvertes.** Plateforme éducative gratuite pour réviser le programme français de **CE2** (« Le Jardin des Savoirs »), de **CM1** (« Le Royaume des Inventeurs ») et de **CM2** (« L’Académie des Explorateurs »), année 2026-2027.
 
 - 100 % statique : hébergée gratuitement sur **GitHub Pages**, accessible depuis n’importe quel ordinateur, même quand l’ordinateur de développement est éteint.
 - **Hors ligne** après la première visite (PWA installable), audios embarqués.
 - **Sans compte, sans publicité, sans traceur, sans IA externe** ; les données restent dans le navigateur.
-- 123 compétences, 688 exercices rédigés + 1 387 variantes mathématiques/anglais générées et vérifiées.
+- 184 compétences, 990 exercices rédigés + 2 087 variantes (mathématiques, anglais, phrases) générées et vérifiées.
 - Leçons structurées avec « Explique-moi autrement », 13 types d’exercices, moteur adaptatif à révisions espacées, test de positionnement sans note, mission du jour, 8 mini-jeux, badges et avatar, espace parent avec statistiques, planning, séances personnalisées, export/import de sauvegardes.
 
 ## Démarrage rapide

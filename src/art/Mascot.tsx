@@ -4,6 +4,7 @@
  *  - Luma : luciole lumineuse.
  *  - Orbi : petit robot-boussole de l'Académie des Explorateurs.
  *  - Kip : jeune dragon cartographe.
+ *  - Cogi : colibri mécanique du Royaume des Inventeurs.
  */
 import type { MascotId } from '@/profiles/types';
 
@@ -22,6 +23,7 @@ export const MASCOTS: { id: MascotId; name: string; description: string }[] = [
   { id: 'luma', name: 'Luma', description: 'Une luciole qui éclaire les idées difficiles.' },
   { id: 'orbi', name: 'Orbi', description: 'Un robot-boussole qui ne perd jamais le nord.' },
   { id: 'kip', name: 'Kip', description: 'Un jeune dragon cartographe, explorateur infatigable.' },
+  { id: 'cogi', name: 'Cogi', description: 'Un colibri mécanique qui adore inventer et résoudre des énigmes.' },
 ];
 
 function Eyes({ mood, cx1, cx2, cy, r = 7 }: { mood: Mood; cx1: number; cx2: number; cy: number; r?: number }) {
@@ -192,6 +194,66 @@ function Kip({ mood }: { mood: Mood }) {
   );
 }
 
+function Gear({ cx, cy, r, teeth, color, rot = 0 }: { cx: number; cy: number; r: number; teeth: number; color: string; rot?: number }) {
+  return (
+    <g transform={`rotate(${rot} ${cx} ${cy})`}>
+      {Array.from({ length: teeth }, (_, i) => (
+        <rect key={i} x={cx - r * 0.18} y={cy - r - r * 0.28} width={r * 0.36} height={r * 0.45} rx="2" fill={color} transform={`rotate(${(360 / teeth) * i} ${cx} ${cy})`} />
+      ))}
+      <circle cx={cx} cy={cy} r={r} fill={color} />
+      <circle cx={cx} cy={cy} r={r * 0.38} fill="#fff6e6" />
+    </g>
+  );
+}
+
+function Cogi({ mood }: { mood: Mood }) {
+  const up = mood === 'cheer';
+  return (
+    <g>
+      <ellipse cx="100" cy="186" rx="40" ry="7" fill="rgba(0,0,0,.14)" />
+      {/* ailes-rouages */}
+      <g opacity=".95">
+        <Gear cx={up ? 44 : 50} cy={up ? 62 : 84} r={22} teeth={10} color="#e0a22c" rot={up ? 20 : 0} />
+        <Gear cx={up ? 156 : 150} cy={up ? 62 : 84} r={22} teeth={10} color="#e0a22c" rot={up ? -20 : 0} />
+      </g>
+      {/* queue */}
+      <path d="M86 160 L70 186 L92 172 L100 190 L108 172 L130 186 L114 160 Z" fill="#2a8f8a" />
+      {/* corps */}
+      <ellipse cx="100" cy="122" rx="42" ry="48" fill="#2a8f8a" />
+      <ellipse cx="100" cy="134" rx="28" ry="32" fill="#bfe6dd" />
+      <g stroke="#1f6e6a" strokeWidth="2" fill="none" opacity=".6">
+        <path d="M84 126 q16 8 32 0" />
+        <path d="M86 142 q14 7 28 0" />
+      </g>
+      {/* tête */}
+      <circle cx="100" cy="76" r="36" fill="#34a39d" />
+      {/* bec */}
+      <path d="M128 82 L176 74 L130 92 Z" fill="#b5651d" />
+      {/* lunettes d'inventeur */}
+      <path d="M66 62 Q100 44 134 62" stroke="#6b3d16" strokeWidth="6" fill="none" />
+      <circle cx="86" cy="76" r="15" fill="#fff" stroke="#b5651d" strokeWidth="4" />
+      <circle cx="114" cy="76" r="15" fill="#fff" stroke="#b5651d" strokeWidth="4" />
+      {mood === 'cheer' ? (
+        <g stroke="#2a2340" strokeWidth="4" strokeLinecap="round" fill="none">
+          <path d="M79 79 Q86 70 93 79" />
+          <path d="M107 79 Q114 70 121 79" />
+        </g>
+      ) : (
+        <g fill="#2a2340">
+          <circle cx={mood === 'think' ? 83 : 86} cy={mood === 'think' ? 73 : 77} r="6" />
+          <circle cx={mood === 'think' ? 111 : 114} cy={mood === 'think' ? 73 : 77} r="6" />
+          <circle cx={(mood === 'think' ? 83 : 86) + 2} cy={(mood === 'think' ? 73 : 77) - 2} r="2" fill="#fff" />
+          <circle cx={(mood === 'think' ? 111 : 114) + 2} cy={(mood === 'think' ? 73 : 77) - 2} r="2" fill="#fff" />
+        </g>
+      )}
+      {/* plumet-ressort */}
+      <path d="M100 40 c-6 -6 6 -10 0 -16 c-6 -6 6 -10 0 -16" stroke="#e0a22c" strokeWidth="4" fill="none" strokeLinecap="round" />
+      <circle cx="100" cy="8" r="6" fill="#ff8a5c" />
+      <circle cx="72" cy="96" r="5" fill="#ff9aa8" opacity=".55" />
+    </g>
+  );
+}
+
 export function Mascot({ id, mood = 'happy', size = 120, className, title }: Props) {
   const name = MASCOTS.find((m) => m.id === id)?.name ?? 'Mascotte';
   return (
@@ -200,6 +262,7 @@ export function Mascot({ id, mood = 'happy', size = 120, className, title }: Pro
       {id === 'luma' && <Luma mood={mood} />}
       {id === 'orbi' && <Orbi mood={mood} />}
       {id === 'kip' && <Kip mood={mood} />}
+      {id === 'cogi' && <Cogi mood={mood} />}
     </svg>
   );
 }

@@ -39,7 +39,7 @@ export function gameQuestions(game: GameId, level: LevelDefinition, practicedSki
   const take = (list: Exercise[], n: number) => list.slice(0, n);
   switch (game) {
     case 'course': {
-      const ids = level.id === 'ce2' ? ['ce2-ma-mental', 'ce2-ma-tables'] : ['cm2-ma-mental', 'cm2-ma-decimaux', 'cm2-ma-fractions'];
+      const ids = { ce2: ['ce2-ma-mental', 'ce2-ma-tables'], cm1: ['cm1-ma-mental', 'cm1-ma-decimaux', 'cm1-ma-fractions'], cm2: ['cm2-ma-mental', 'cm2-ma-decimaux', 'cm2-ma-fractions'] }[level.id];
       return take(pool(level.skills.filter((s) => ids.includes(s.id)), seed, (e) => e.type === 'numeric' && e.difficulty <= 2), 10);
     }
     case 'detective':
@@ -53,7 +53,7 @@ export function gameQuestions(game: GameId, level: LevelDefinition, practicedSki
     case 'labo':
       return take(pool(sk((s) => s.subject === 'sciences' || s.subject === 'qlm'), seed, (e) => ['mcq', 'truefalse', 'categorize', 'numeric'].includes(e.type)), 6);
     case 'fractions': {
-      const ids = level.id === 'ce2' ? ['ce2-ma-fractions'] : ['cm2-ma-fractions', 'cm2-ma-decimaux'];
+      const ids = { ce2: ['ce2-ma-fractions'], cm1: ['cm1-ma-fractions', 'cm1-ma-decimaux'], cm2: ['cm2-ma-fractions', 'cm2-ma-decimaux'] }[level.id];
       return take(pool(level.skills.filter((s) => ids.includes(s.id)), seed, (e) => e.type === 'fraction-build' || e.visual?.kind === 'fraction' || /fraction|\/\d/.test(e.prompt)), 6);
     }
     case 'coffre': {

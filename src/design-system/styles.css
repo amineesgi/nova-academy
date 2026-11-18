@@ -131,6 +131,29 @@
   color-scheme: light;
 }
 
+[data-theme='atelier'] {
+  --bg: #fbf0de;
+  --bg-2: #f3e0c2;
+  --surface: #fffaf2;
+  --surface-2: #fdf3e3;
+  --line: rgba(80, 50, 20, 0.14);
+  --ink: #2e2216;
+  --ink-soft: #6b5640;
+  --primary: #a9561a;
+  --primary-2: #8a4413;
+  --primary-ink: #ffffff;
+  --accent: #e0a22c;
+  --accent-2: #2a8f8a;
+  --success: #1f8f55;
+  --success-bg: #e3f4e8;
+  --danger: #c8473c;
+  --danger-bg: #fbe9e5;
+  --warning: #a8670b;
+  --ring: #2a8f8a;
+  --shadow-color: 110, 60, 20;
+  color-scheme: light;
+}
+
 [data-theme='academie'] {
   --bg: #111832;
   --bg-2: #18224a;

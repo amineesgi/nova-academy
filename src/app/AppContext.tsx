@@ -41,6 +41,14 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     void reloadProfiles().then(() => setReady(true));
+    // L'application a démarré correctement : on autorise un futur rechargement automatique.
+    setTimeout(() => {
+      try {
+        sessionStorage.removeItem('nova-chunk-reload');
+      } catch {
+        /* stockage indisponible */
+      }
+    }, 5000);
     void requestPersistence();
   }, [reloadProfiles]);
 

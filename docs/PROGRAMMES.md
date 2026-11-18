@@ -1,6 +1,6 @@
 # Programmes scolaires de référence — année 2026-2027
 
-Vérification effectuée le **15 novembre 2026** sur education.gouv.fr (Bulletin officiel) et eduscol.education.gouv.fr. L’application applique **les programmes en vigueur pour chaque classe en 2026-2027**, sans anticiper les programmes prévus pour 2027-2028.
+Vérification effectuée le **15 novembre 2026** (CE2, CM2) et le **18 novembre 2026** (CM1) sur education.gouv.fr (Bulletin officiel) et eduscol.education.gouv.fr. L’application applique **les programmes en vigueur pour chaque classe en 2026-2027**, sans anticiper les programmes prévus pour 2027-2028.
 
 ## Calendrier retenu
 
@@ -18,6 +18,27 @@ Vérification effectuée le **15 novembre 2026** sur education.gouv.fr (Bulletin
 
 Chaque compétence de l’application porte sa référence exacte (champ `programRef`, visible dans l’espace parent → Progression).
 
+## CM1 en 2026-2027 (ajouté le 18/11/2026)
+
+Le CM1 est la classe la plus concernée par les nouveaux programmes cette année :
+
+| Discipline | CM1 en 2026-2027 |
+|---|---|
+| Français | **Nouveau programme** — BO n° 16 du 17-04-2025 (CM1 depuis la rentrée 2025) |
+| Mathématiques | **Nouveau programme** — BO n° 16 du 17-04-2025 (CM1 depuis la rentrée 2025) : entiers jusqu’à 999 999, fractions (y compris > 1, dénominateurs jusqu’à 20), décimaux (dixièmes, centièmes), division euclidienne par un nombre à un chiffre, initiation à l’algèbre, probabilités |
+| Langues vivantes (anglais) | **Nouveau programme** — arrêté du 26-02-2026, BO n° 12 du 19-03-2026 (CP et CM1 à la rentrée 2026), niveau visé A1 |
+| Histoire | **Nouveau programme** — arrêté du 22-04-2026, BO n° 22 du 28-05-2026 (CM1 à la rentrée 2026) : la vie quotidienne au Moyen Âge (XIe-XIIIe s.) ; la monarchie en France (XVIe-XVIIe s.) ; explorations et conquêtes européennes (XVe-XVIIe s.) ; 1789, une année révolutionnaire |
+| Géographie | **Nouveau programme** — BO n° 22 du 28-05-2026 : se nourrir ; les inégalités dans le monde ; se déplacer ; communiquer dans le monde avec Internet ; le planisphère comme outil central |
+| Sciences et technologie | **Nouveau programme** — arrêté du 05-06-2026, BO n° 24 du 11-06-2026 : masse et mélanges ; lumière, ombres, phases de la Lune, mesure d’un déplacement ; espèce, classification, reproduction (ovipare/vivipare) ; écosystèmes, réseaux alimentaires, météorologie ; le cerveau (perception, attention, mémoire) et la croissance ; objets techniques et programmation |
+| EMC | Programme de 2024 (BO n° 24 du 13-06-2024), en vigueur au CM1 depuis la rentrée 2024 |
+| Arts | Programmes de 2020 |
+
+Écarts assumés par rapport à la demande initiale, pour respecter les textes officiels :
+- **Énergie et électricité** ne figurent plus au CM1 dans le programme 2026 (électricité au CM2, énergie en 6e) : le CM1 n’en contient donc pas.
+- En géographie, les thèmes officiels CM1 2026 ne sont plus « territoires et paysages / lieux de vie » mais ceux listés ci-dessus ; la lecture de cartes et les repères sont travaillés à travers le planisphère.
+- La puberté est abordée uniquement sous l’angle prévu (la croissance et des changements qui arrivent à des âges différents), sans aller au-delà ; l’EVARS reste du ressort de l’école.
+- Les annexes officielles des BO n° 22 et n° 24 font foi ; les contenus ont été établis à partir des synthèses publiées par Éduscol et des sites d’accompagnement pédagogique.
+
 ## Thèmes officiels utilisés
 
 - **Histoire CM2 (programme 2020)** : Thème 1 « Le temps de la République » ; Thème 2 « L’âge industriel en France » ; Thème 3 « La France, des guerres mondiales à l’Union européenne » ; repères chronologiques.
@@ -30,6 +51,7 @@ Chaque compétence de l’application porte sa référence exacte (champ `progra
 Le référentiel est **dans le code** (source unique, testée automatiquement) :
 
 - CE2 : `src/curriculum/ce2/*.ts` — 57 compétences.
+- CM1 : `src/curriculum/cm1/*.ts` — 61 compétences.
 - CM2 : `src/curriculum/cm2/*.ts` — 66 compétences.
 
 Chaque compétence comporte : identifiant unique, niveau, matière, domaine, intitulé, objectif, prérequis, difficulté, référence au programme, leçon structurée, exercices, générateurs et critère de maîtrise.
@@ -47,5 +69,7 @@ Chaque compétence comporte : identifiant unique, niveau, matière, domaine, int
 - Bulletin officiel n° 24 du 13 juin 2024 (EMC).
 - Bulletin officiel n° 12 du 19 mars 2026 (langues vivantes cycles 2 et 3) — https://www.education.gouv.fr/bo/2026/Hebdo12/MENE2602911A
 - Bulletin officiel n° 22 du 28 mai 2026 (histoire-géographie cycle 3, EPS) et n° 24 du 11 juin 2026 (sciences) — https://www.education.gouv.fr/bo/2026/Hebdo24/MENE2611650A
+- Bulletin officiel n° 22 du 28 mai 2026 (histoire-géographie cycle 3, applicable au CM1 en 2026).
+- Synthèses : Fiche Séquence (sciences CM1 2026), SOS Cartables (histoire et géographie CM1 2026), Café pédagogique (sciences cycle 3, juillet 2026).
 - Bulletin officiel n° 31 du 30 juillet 2020 (programmes cycles 2 et 3 consolidés).
 - Eduscol — « Enseigner au cycle 3 », ressources d’accompagnement histoire-géographie et sciences au cycle 3 ; calendrier de mise en œuvre des nouveaux programmes.

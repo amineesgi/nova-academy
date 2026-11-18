@@ -69,11 +69,14 @@ Toutes les lignes portent `profileId` : les progressions CE2/CM2 ne peuvent pas 
 - Les identifiants d’exercices dépendent de leur position : **on ajoute toujours en fin de liste**.
 - `npm run inventory` affiche l’inventaire réel ; `tests/unit/content.test.ts` vérifie chaque exercice et chaque variante comptée (bonne réponse acceptée par le correcteur, choix sans doublon, prérequis existants, cibles de carte valides, diversité des générateurs…).
 
-## Ajouter un niveau (ex. CM1)
+## Ajouter un niveau (le CM1 a été ajouté ainsi)
 
-1. Créer `src/curriculum/cm1/` sur le modèle de `cm2/` (compétences + `index.ts` avec régions).
-2. Ajouter `'cm1'` à `LevelId` et l’enregistrer dans `registry.ts` et `DEFAULT_SUBJECTS`.
-3. Ajouter une carte d’accueil (Welcome) et, si souhaité, un décor de carte dans `AdventureMap`.
+1. Créer `src/curriculum/<niveau>/` (compétences + `index.ts` avec régions) et les références dans `refs.ts`.
+2. Ajouter l’identifiant à `LevelId`, l’enregistrer dans `registry.ts`, `DEFAULT_SUBJECTS` et `src/profiles/levelDefaults.ts` (mascotte, thème, durée, présentation de la carte d’accueil).
+3. Ajouter un décor de carte et des repères dans `AdventureMap`, et les compétences du niveau dans les mini-jeux de calcul et de fractions (`games/catalog.ts`).
+4. Générer les audios (`npm run audio`) : les fichiers existants ne sont pas modifiés.
+
+Les sauvegardes acceptent tout niveau présent dans le registre ; les anciennes sauvegardes restent valides.
 
 ## Design system
 

@@ -41,3 +41,24 @@
 2. Enrichir EMC/arts et les dictées ; ajouter des textes de lecture longs.
 3. Illustrations dédiées pour le vocabulaire anglais ; enregistrements audio humains si disponibles.
 4. Préparer les programmes 2027-2028 (langues vivantes CE2/CM2, histoire-géographie et sciences CM2) le moment venu.
+
+## Ajout du CM1 — 18/11/2026
+
+Ajout du parcours **CM1 « Le Royaume des Inventeurs »**, sans modifier les contenus ni les univers CE2 et CM2.
+
+| Élément | Détail |
+|---|---|
+| Contenu | 61 compétences, 61 leçons, 302 exercices rédigés + 700 variantes vérifiées (total 1 002), 86 nouveaux audios |
+| Programmes | Nouveaux programmes 2026 au CM1 : histoire-géographie (BO n° 22), sciences (BO n° 24), langues vivantes (BO n° 12) ; français et maths (BO n° 16 de 2025) — voir PROGRAMMES.md |
+| Univers | Carte « Royaume des Inventeurs », mascotte Cogi (colibri mécanique), thème « Atelier » (aussi proposés aux autres niveaux, sans changer leurs valeurs par défaut) |
+| Code commun modifié (minimal) | type `LevelId`, registre, `levelDefaults.ts` (valeurs CE2/CM2 identiques à l’origine), accueil à 3 cartes, validation des sauvegardes (tout niveau du registre), jeux de calcul/fractions, décor de carte |
+| Correctifs généraux découverts pendant les tests | 1) Page d’entraînement d’une compétence : la séance est désormais figée au démarrage et réinitialisée si l’on change de compétence (avant, un nouveau rendu pouvait relancer la séance). 2) Après une mise à jour publiée pendant l’utilisation, un écran qui ne se charge plus provoque un rechargement automatique (une fois) au lieu d’un écran blanc, puis un message clair. |
+
+| Contrôle | Résultat |
+|---|---|
+| `tsc -b` | ✅ |
+| Vitest | ✅ 60 tests (dont : séparation CE2/CM1/CM2, profils existants inchangés après création d’un CM1, anciennes sauvegardes CE2/CM2 acceptées, sauvegarde CM1, retour aux prérequis en CM1, cohérence des 1 002 exercices CM1) |
+| Build de production | ✅ 309 fichiers pré-cachés (≈ 3,9 Mo), audios CM1 inclus |
+| `npm audit --omit=dev` | ✅ 0 vulnérabilité |
+| Playwright | ✅ 10/10 : 4 scénarios CM1 (accueil à 3 parcours et création de profil ; mission complète + progression + récompenses + statistiques parentales + export ; une leçon et un exercice corrigé dans chacune des 8 matières ; positionnement + défi des fractions) et les 6 scénarios CE2/CM2 d’origine inchangés |
+| Publication | ⏳ non publiée (en attente de votre autorisation) |

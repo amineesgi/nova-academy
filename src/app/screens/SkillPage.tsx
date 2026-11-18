@@ -1,32 +1,38 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Navigate, useParams } from 'react-router';
 import { BookOpen, Dumbbell } from 'lucide-react';
 import { useProfileCtx } from './ProfileLayout';
-import { getRecord, isUnlocked, type BlockKind } from '@/adaptive-engine/planner';
+import { getRecord, isUnlocked, type BlockKind, type MissionBlock } from '@/adaptive-engine/planner';
 import { STATE_LABELS, computeState, isDue, todayISO } from '@/adaptive-engine/mastery';
 import { getSkill } from '@/curriculum/registry';
 import { SUBJECT_LABELS } from '@/curriculum/types';
 import { SubjectBadge } from '@/components/ui';
 import { Mascot } from '@/art/Mascot';
+import { LEVEL_DEFAULTS } from '@/profiles/levelDefaults';
 import { SessionRunner } from '../session/SessionRunner';
 
 export default function SkillPage() {
   const { skillId } = useParams();
   const { profile, level, records, refresh } = useProfileCtx();
-  const [mode, setMode] = useState<null | 'lesson' | 'practice'>(null);
+  // La séance est figée au démarrage : un nouveau rendu ne doit pas la relancer.
+  const [blocks, setBlocks] = useState<MissionBlock[] | null>(null);
+  useEffect(() => setBlocks(null), [skillId]);
   const skill = skillId ? getSkill(skillId) : undefined;
   if (!skill || skill.level !== profile.level || !isUnlocked(level, skill, records, profile)) return <Navigate to={`/p/${profile.id}`} replace />;
   const rec = getRecord(records, profile.id, skill.id);
   const state = computeState(rec);
   const kind: BlockKind = state === 'not_started' ? 'new' : rec.needsSupport ? 'support' : isDue(rec, todayISO()) ? 'review' : 'learn';
 
-  if (mode) {
+  const start = (withLesson: boolean) =>
+    setBlocks([{ skillId: skill.id, kind, withLesson, alternativeFirst: kind === 'support', count: LEVEL_DEFAULTS[level.id].blockSize }]);
+
+  if (blocks) {
     return (
       <SessionRunner
         profile={profile}
         kind="free"
         title="Entraînement"
-        blocks={[{ skillId: skill.id, kind, withLesson: mode === 'lesson', alternativeFirst: kind === 'support', count: level.id === 'ce2' ? 5 : 6 }]}
+        blocks={blocks}
         onComplete={() => void refresh()}
       />
     );
@@ -51,11 +57,11 @@ export default function SkillPage() {
         {rec.nextReview && <span className="pill">Révision conseillée : {rec.nextReview.split('-').reverse().join('/')}</span>}
       </div>
       <div className="row">
-        <button className="btn btn-primary btn-lg" onClick={() => setMode('lesson')} autoFocus>
+        <button className="btn btn-primary btn-lg" onClick={() => start(true)} autoFocus>
           <BookOpen /> {rec.lessonSeen ? 'Revoir la leçon puis m’entraîner' : 'Découvrir la leçon'}
         </button>
         {rec.lessonSeen && (
-          <button className="btn btn-accent btn-lg" onClick={() => setMode('practice')}>
+          <button className="btn btn-accent btn-lg" onClick={() => start(false)}>
             <Dumbbell /> M’entraîner directement
           </button>
         )}

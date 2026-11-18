@@ -56,6 +56,42 @@ describe('stockage local', () => {
   });
 });
 
+describe('troisième niveau CM1', () => {
+  it('sépare CE2, CM1 et CM2 et ne touche pas aux profils existants', async () => {
+    const a = newProfile('ce2', 'Lili');
+    const m = newProfile('cm2', 'Max');
+    await saveProfile(a, d);
+    await saveProfile(m, d);
+    await recordAttempt(a.id, attempt('ce2-ma-num', true), d);
+    await recordAttempt(m.id, attempt('cm2-ma-decimaux', true), d);
+    const before = JSON.stringify(await exportBackup(d));
+    const c = newProfile('cm1', 'Noa');
+    expect(c).toMatchObject({ level: 'cm1', mascot: 'cogi', theme: 'atelier' });
+    expect(c.plan.subjects).toContain('histoire');
+    await saveProfile(c, d);
+    await recordAttempt(c.id, attempt('cm1-ma-fractions', false), d);
+    expect([...(await loadRecords(c.id, d)).keys()]).toEqual(['cm1-ma-fractions']);
+    expect([...(await loadRecords(a.id, d)).keys()]).toEqual(['ce2-ma-num']);
+    expect([...(await loadRecords(m.id, d)).keys()]).toEqual(['cm2-ma-decimaux']);
+    const after = await exportBackup(d);
+    const old = JSON.parse(before);
+    for (const p of old.data.profiles) expect(after.data.profiles.find((x) => x.id === p.id)).toEqual(p);
+  });
+
+  it('accepte une sauvegarde CM1 et toujours les anciennes sauvegardes CE2/CM2', async () => {
+    const c = newProfile('cm1', 'Noa');
+    await saveProfile(c, d);
+    await recordAttempt(c.id, attempt('cm1-fr-present', true), d);
+    const data = parseBackupText(JSON.stringify(await exportBackup(d)));
+    expect(data.profiles[0]!.level).toBe('cm1');
+    const legacy = validateBackup({ format: 'nova-academy-backup', formatVersion: 1, exportedAt: '2026-11-15', appVersion: '1.0.0', data: { profiles: [{ id: 'old', level: 'ce2', name: 'Lili' }, { id: 'old2', level: 'cm2', name: 'Max' }], skillRecords: [], attempts: [], sessions: [] } });
+    expect(legacy.profiles.map((p) => p.level)).toEqual(['ce2', 'cm2']);
+    expect(legacy.profiles[0]!.mascot).toBe('pip');
+    expect(legacy.profiles[1]!.mascot).toBe('orbi');
+    expect(() => validateBackup({ format: 'nova-academy-backup', formatVersion: 1, data: { profiles: [{ id: 'x', level: 'cm3', name: 'a' }], skillRecords: [], attempts: [], sessions: [] } })).toThrow(/invalide/);
+  });
+});
+
 describe('sauvegarde et restauration', () => {
   it('exporte puis restaure à l’identique sur un autre navigateur', async () => {
     const a = newProfile('ce2', 'Lili');

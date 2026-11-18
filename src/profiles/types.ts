@@ -9,8 +9,8 @@ export interface AvatarConfig {
   background: number;
 }
 
-export type MascotId = 'pip' | 'luma' | 'orbi' | 'kip';
-export type ThemeId = 'jardin' | 'aurore' | 'ocean' | 'academie' | 'cosmos' | 'volcan';
+export type MascotId = 'pip' | 'luma' | 'orbi' | 'kip' | 'cogi';
+export type ThemeId = 'jardin' | 'aurore' | 'ocean' | 'atelier' | 'academie' | 'cosmos' | 'volcan';
 
 export interface ProfileSettings {
   /** Échelle du texte : 1 (normal) à 1.3. */
@@ -70,5 +70,6 @@ export interface Profile {
 
 export const DEFAULT_SUBJECTS: Record<LevelId, SubjectId[]> = {
   ce2: ['francais', 'maths', 'anglais', 'qlm', 'emc', 'arts'],
+  cm1: ['francais', 'maths', 'anglais', 'histoire', 'geographie', 'sciences', 'emc', 'arts'],
   cm2: ['francais', 'maths', 'anglais', 'histoire', 'geographie', 'sciences', 'emc', 'arts'],
 };

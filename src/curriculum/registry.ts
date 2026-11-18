@@ -3,10 +3,11 @@
  * l'ajouter ici et à LevelId dans types.ts. Rien d'autre n'est à modifier.
  */
 import { CE2 } from './ce2';
+import { CM1 } from './cm1';
 import { CM2 } from './cm2';
 import type { Exercise, Generator, LevelDefinition, LevelId, Skill } from './types';
 
-export const LEVELS: Record<LevelId, LevelDefinition> = { ce2: CE2, cm2: CM2 };
+export const LEVELS: Record<LevelId, LevelDefinition> = { ce2: CE2, cm1: CM1, cm2: CM2 };
 
 const skillIndex = new Map<string, Skill>();
 const genIndex = new Map<string, Generator>();

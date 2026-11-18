@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { applyAttempt, applyBlock, computeState, emptyRecord, addDays, isDue, type SkillRecord } from '@/adaptive-engine/mastery';
 import { buildDailyMission, isUnlocked, pickExercises } from '@/adaptive-engine/planner';
 import { CE2 } from '@/curriculum/ce2';
+import { CM1 } from '@/curriculum/cm1';
 import { CM2 } from '@/curriculum/cm2';
 import { newProfile } from '@/storage/repo';
 import { openRegions } from '@/progression/regions';
@@ -47,8 +48,8 @@ describe('modèle de maîtrise', () => {
 });
 
 describe('planificateur', () => {
-  it('propose une mission non vide pour un nouveau profil CE2 et CM2', () => {
-    for (const lvl of [CE2, CM2]) {
+  it('propose une mission non vide pour un nouveau profil CE2, CM1 et CM2', () => {
+    for (const lvl of [CE2, CM1, CM2]) {
       const p = newProfile(lvl.id, 'Test');
       const m = buildDailyMission(lvl, p, new Map(), new Date('2026-11-16'), '2026-11-16', openRegions(lvl, p, 0));
       expect(m.length).toBeGreaterThanOrEqual(2);
@@ -85,12 +86,20 @@ describe('planificateur', () => {
     expect(isUnlocked(CE2, s, new Map(), { ...p, plan: { ...p.plan, freeExplore: true } })).toBe(true);
   });
   it('commence toujours un bloc par la question la plus facile disponible', () => {
-    for (const s of [...CE2.skills, ...CM2.skills]) {
+    for (const s of [...CE2.skills, ...CM1.skills, ...CM2.skills]) {
       const list = pickExercises(s, emptyRecord('p', s.id), 'new', 5, 42);
       const easiest = Math.min(...[...s.exercises, ...s.generators.map((g) => g.make(1))].map((e) => e.difficulty));
       expect(list.length, s.id).toBeGreaterThanOrEqual(3);
       expect(list[0]!.difficulty, s.id).toBe(easiest);
       expect(new Set(list.map((e) => e.id)).size).toBe(list.length);
     }
+  });
+  it('CM1 : une difficulté sur les décimaux ramène d’abord aux fractions', () => {
+    const p = newProfile('cm1', 'Test');
+    const skill = CM1.skills.find((s) => s.id === 'cm1-ma-decimaux')!;
+    const rec = { ...emptyRecord(p.id, skill.id), attempts: 6, recent: [0, 0, 1, 0, 0, 0], needsSupport: true, lessonSeen: true };
+    const m = buildDailyMission(CM1, p, new Map([[skill.id, rec]]), new Date('2026-11-16'), '2026-11-16', openRegions(CM1, p, 0));
+    expect(m[0]).toMatchObject({ kind: 'prerequisite', skillId: 'cm1-ma-fractions' });
+    expect(m.every((b) => b.skillId.startsWith('cm1-'))).toBe(true);
   });
 });

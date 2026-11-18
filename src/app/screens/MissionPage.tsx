@@ -7,6 +7,7 @@ import { getRecord } from '@/adaptive-engine/planner';
 import { openRegions } from '@/progression/regions';
 import { getProfile, saveProfile, sessionsFor } from '@/storage/repo';
 import { Loading } from '@/components/ui';
+import { LEVEL_DEFAULTS } from '@/profiles/levelDefaults';
 import { SessionRunner } from '../session/SessionRunner';
 
 export default function MissionPage() {
@@ -25,7 +26,7 @@ export default function MissionPage() {
     if (custom) {
       return custom.skillIds.map((id): MissionBlock => {
         const rec = getRecord(records, profile.id, id);
-        return { skillId: id, kind: rec.attempts === 0 ? 'new' : 'learn', withLesson: !rec.lessonSeen, alternativeFirst: false, count: level.id === 'ce2' ? 5 : 6 };
+        return { skillId: id, kind: rec.attempts === 0 ? 'new' : 'learn', withLesson: !rec.lessonSeen, alternativeFirst: false, count: LEVEL_DEFAULTS[level.id].blockSize };
       });
     }
     return buildDailyMission(level, profile, records, new Date(), todayISO(), openRegions(level, profile, missions));

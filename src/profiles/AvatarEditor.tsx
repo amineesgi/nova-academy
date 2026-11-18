@@ -83,6 +83,7 @@ export const THEMES: { id: ThemeId; name: string; colors: [string, string, strin
   { id: 'jardin', name: 'Jardin', colors: ['#fdf4e7', '#2b9667', '#f0814f'] },
   { id: 'aurore', name: 'Aurore', colors: ['#fff1f3', '#c93f6c', '#e89b19'] },
   { id: 'ocean', name: 'Océan', colors: ['#ebf6fb', '#1878a8', '#e88e1a'] },
+  { id: 'atelier', name: 'Atelier', colors: ['#fbf0de', '#b5651d', '#2a8f8a'] },
   { id: 'academie', name: 'Académie', colors: ['#111832', '#2fbfa9', '#f5b642'] },
   { id: 'cosmos', name: 'Cosmos', colors: ['#150e2b', '#a27bff', '#ffcf5c'] },
   { id: 'volcan', name: 'Volcan', colors: ['#1c1315', '#ff7a45', '#ffd166'] },

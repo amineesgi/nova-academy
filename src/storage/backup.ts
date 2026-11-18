@@ -7,6 +7,7 @@ import type { SkillRecord } from '@/adaptive-engine/mastery';
 import type { Profile } from '@/profiles/types';
 import { db, type AttemptRow, type NovaDB, type SessionRow } from './db';
 import { normalizeProfile } from './repo';
+import { LEVELS } from '@/curriculum/registry';
 
 export const BACKUP_FORMAT = 'nova-academy-backup';
 export const BACKUP_VERSION = 1;
@@ -79,7 +80,7 @@ export function validateBackup(input: unknown): BackupData {
     return v as unknown[];
   };
   const profiles = arr('profiles').map((p, i) => {
-    if (!isObj(p) || !isStr(p.id) || (p.level !== 'ce2' && p.level !== 'cm2') || !isStr(p.name)) {
+    if (!isObj(p) || !isStr(p.id) || !isStr(p.level) || !(p.level in LEVELS) || !isStr(p.name)) {
       throw new BackupError(`Profil n°${i + 1} invalide.`);
     }
     // Les champs manquants (ajoutés dans des versions plus récentes) reçoivent une valeur par défaut.
